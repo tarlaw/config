@@ -1,5 +1,3 @@
-set nocompatible
-
 " vim-plug
 call plug#begin('~/.vim/plugged')
 
@@ -8,6 +6,7 @@ Plug 'tpope/vim-fugitive'
 
 " filesystem
 Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'kien/ctrlp.vim' 
 
@@ -35,6 +34,14 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'altercation/vim-colors-solarized'
 Plug 'jnurmine/Zenburn'
 
+"
+Plug 'mileszs/ack.vim'
+Plug 'vim-scripts/YankRing.vim'
+Plug 'tpope/vim-surround'
+Plug 'vim-scripts/scratch.vim'
+Plug 'kien/rainbow_parentheses.vim'
+
+" custom
 Plug 'tpope/vim-sensible'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'tarlaw/vim-evernote'
@@ -42,26 +49,134 @@ Plug 'tarlaw/vim-markdown-exporter'
 
 call plug#end()
 
-filetype plugin indent on    " enables filetype detection
-let g:SimpylFold_docstring_preview = 1
+"
+" base config
+"
 
-" autocomplete
-let g:ycm_autoclose_preview_window_after_completion=1
+set nocompatible
+set modelines=0
 
-" custom keys
-let mapleader=" "
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
 
-"call togglebg#map("<F5>")
-colorscheme zenburn
-"set guifont=Monaco:h14
+set encoding=utf-8
+set scrolloff=3
+set autoindent
+set showmode
+set showcmd
+set hidden
+set wildmenu
+set wildmode=list:longest
+set visualbell
+set cursorline
+set ttyfast
+set ruler
+set backspace=indent,eol,start
+set laststatus=2
+set relativenumber
+set undofile
 
-let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+" change leader key
+let mapleader = ","
 
+" setting search
+nnoremap / /\v
+vnoremap / /\v
+set ignorecase
+set smartcase
+set gdefault
+set incsearch
+set showmatch
+set hlsearch
+nnoremap <leader><space> :noh<cr>
+nnoremap <tab> %
+vnoremap <tab> %
+
+" handle long line correct
+set wrap
+set textwidth=79
+set formatoptions=qrn1
+set colorcolumn=85
+
+" show invisible character
+set list
+set listchars=tab:▸\ ,eol:¬
+
+" disable arrow key
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+nnoremap j gj
+nnoremap k gk
+
+" bind escape key
+inoremap <F1> <ESC>
+nnoremap <F1> <ESC>
+vnoremap <F1> <ESC>
+nnoremap ; :
+
+" save on losing focus
+au FocusLost * :wa
+
+" strip all trailing whitespace in the current file
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+
+" map to ack
+nnoremap <leader>a :Ack
+
+" reselect text
+nnoremap <leader>v V`]
+
+" quicker escape
+inoremap jj <ESC>
+
+" quicker split window
+set splitbelow
+set splitright
+nnoremap <leader>w <C-w>v<C-w>l
+
+" simple switch window
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" clipboard setting
+set clipboard+=unnamedplus
+
+" disable swap file
 set noswapfile
 
-" turn on numbering
-set nu
+" Set the default file encoding to UTF-8:
+set encoding=utf-8
+
+" use space to open folds
+nnoremap <space> za 
+
+" theme
+call togglebg#map("<F5>")
+colorscheme zenburn
+set guifont=Menlo:h12
+
+"
+" base end
+"
+
+" simpylfold setting
+filetype plugin indent on
+let g:SimpylFold_docstring_preview = 1
+set foldlevel=99
+
+" autocomplete setting
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " python with virtualenv support
 py << EOF
@@ -80,7 +195,10 @@ EOF
 " omnicomplete
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 
-"------------Start Python PEP 8 stuff----------------
+"
+" python pep 8 stuff
+"
+
 " Number of spaces that a pre-existing tab is equal to.
 au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
 
@@ -103,9 +221,6 @@ au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
 " Use UNIX (\n) line endings.
 au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
 
-" Set the default file encoding to UTF-8:
-set encoding=utf-8
-
 " For full syntax highlighting:
 let python_highlight_all=1
 syntax on
@@ -116,36 +231,47 @@ autocmd FileType python set autoindent
 " make backspaces more powerfull
 set backspace=indent,eol,start
 
-
 " Folding based on indentation:
 autocmd FileType python set foldmethod=indent
-" use space to open folds
-nnoremap <space> za 
-"----------Stop python PEP 8 stuff--------------
+
+"
+" python pep 8 stuff end
+"
 
 "js stuff"
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
 
-set textwidth=79
-set foldlevel=99
-
-set splitbelow
-set splitright
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
+" table mode setting
 let g:table_mode_corner = "|"
 
-" common setting
-set clipboard+=unnamedplus
-
-" NERDTree
+" NERDTree setting
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc()==0 && !exists("s:std_in") | NERDTree | endif
-map <C-n> :NERDTreeToggle<CR>
+map <leader>n :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$")==1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 
 " CtrlP
 let g:ctrlp_working_path_mode = 'ra'
+
+" rainbow parenthsis setting
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
+let g:rbpt_loadcmd_toggle = 0
