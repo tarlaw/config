@@ -1,20 +1,10 @@
 " vim-plug
 call plug#begin('~/.vim/plugged')
 
-" git interface
-Plug 'tpope/vim-fugitive'
-
 " filesystem
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'kien/ctrlp.vim' 
-
-" html
-" Plug 'isnowfy/python-vim-instant-markdown'
-" Plug 'jtratner/vim-flavored-markdown'
-" Plug 'suan/vim-instant-markdown'
-" Plug 'nelstrom/vim-markdown-preview'
 
 " python sytax checker
 Plug 'nvie/vim-flake8'
@@ -24,7 +14,7 @@ Plug 'scrooloose/syntastic'
 
 " auto-completion stuff
 Plug 'Valloric/YouCompleteMe'
-Plug 'klen/rope-vim'
+Plug 'klen/python-mode'
 Plug 'ervandew/supertab'
 
 " code folding
@@ -40,12 +30,6 @@ Plug 'vim-scripts/YankRing.vim'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/scratch.vim'
 Plug 'kien/rainbow_parentheses.vim'
-
-" custom
-Plug 'tpope/vim-sensible'
-Plug 'dhruvasagar/vim-table-mode'
-Plug 'tarlaw/vim-evernote'
-Plug 'tarlaw/vim-markdown-exporter'
 
 call plug#end()
 
@@ -77,6 +61,7 @@ set backspace=indent,eol,start
 set laststatus=2
 set relativenumber
 set undofile
+set fileencodings=ucs-bom,utf-8,utf-16,gbk,big5,gb18030,latin1
 
 " change leader key
 let mapleader = ","
@@ -174,10 +159,6 @@ filetype plugin indent on
 let g:SimpylFold_docstring_preview = 1
 set foldlevel=99
 
-" autocomplete setting
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
 " python with virtualenv support
 py << EOF
 import os.path
@@ -240,9 +221,6 @@ autocmd FileType python set foldmethod=indent
 
 "js stuff"
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
-
-" table mode setting
-let g:table_mode_corner = "|"
 
 " NERDTree setting
 autocmd StdinReadPre * let s:std_in=1
