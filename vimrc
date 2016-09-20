@@ -13,7 +13,6 @@ Plug 'vim-scripts/indentpython.vim'
 Plug 'scrooloose/syntastic'
 
 " auto-completion stuff
-Plug 'Valloric/YouCompleteMe'
 Plug 'klen/python-mode'
 Plug 'ervandew/supertab'
 
@@ -21,8 +20,7 @@ Plug 'ervandew/supertab'
 Plug 'tmhedberg/SimpylFold'
 
 " theme
-Plug 'altercation/vim-colors-solarized'
-Plug 'jnurmine/Zenburn'
+Plug 'morhetz/gruvbox'
 
 "
 Plug 'mileszs/ack.vim'
@@ -30,6 +28,10 @@ Plug 'vim-scripts/YankRing.vim'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/scratch.vim'
 Plug 'kien/rainbow_parentheses.vim'
+
+" markdown
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 
 call plug#end()
 
@@ -62,6 +64,7 @@ set laststatus=2
 set relativenumber
 set undofile
 set fileencodings=ucs-bom,utf-8,utf-16,gbk,big5,gb18030,latin1
+set fileformats=unix,dos
 
 " change leader key
 let mapleader = ","
@@ -83,7 +86,7 @@ vnoremap <tab> %
 set wrap
 set textwidth=79
 set formatoptions=qrn1
-set colorcolumn=85
+set colorcolumn=80
 
 " show invisible character
 set list
@@ -146,8 +149,10 @@ set encoding=utf-8
 nnoremap <space> za 
 
 " theme
-call togglebg#map("<F5>")
-colorscheme zenburn
+" call togglebg#map("<F5>")
+" colorscheme zenburn
+colorscheme gruvbox
+set background=dark
 set guifont=Menlo:h12
 
 "
