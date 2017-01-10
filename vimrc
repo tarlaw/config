@@ -21,6 +21,8 @@ Plug 'tmhedberg/SimpylFold'
 
 " theme
 Plug 'morhetz/gruvbox'
+Plug 'itchyny/lightline.vim'
+Plug 'Yggdroot/indentLine'
 
 "
 Plug 'mileszs/ack.vim'
@@ -32,6 +34,8 @@ Plug 'kien/rainbow_parentheses.vim'
 " markdown
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
+
+Plug 'mattn/emmet-vim'
 
 call plug#end()
 
@@ -91,6 +95,7 @@ set colorcolumn=80
 " show invisible character
 set list
 set listchars=tab:▸\ ,eol:¬
+
 
 " disable arrow key
 nnoremap <up> <nop>
@@ -218,14 +223,15 @@ autocmd FileType python set autoindent
 set backspace=indent,eol,start
 
 " Folding based on indentation:
-autocmd FileType python set foldmethod=indent
+autocmd FileType python,xml,html,xhtml setlocal foldmethod=indent
+autocmd Syntax c,cpp,vim setlocal foldmethod=syntax
 
 "
 " python pep 8 stuff end
 "
 
 "js stuff"
-autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd FileType javascript,html,css setlocal shiftwidth=2 tabstop=2
 
 " NERDTree setting
 autocmd StdinReadPre * let s:std_in=1
@@ -258,3 +264,11 @@ let g:rbpt_colorpairs = [
     \ ]
 let g:rbpt_max = 16
 let g:rbpt_loadcmd_toggle = 0
+
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
+
+let g:pydiction_location = '/Users/law/.vim/plugged/Pydiction/complete-dict'
+
+" let g:indentLine_char = '|'
+" let g:indentLine_enabled = 1
